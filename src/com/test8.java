@@ -13,10 +13,25 @@ public class test8 {
     private static final int _7MB = 7 * 1024 * 1024;
     private static final int _8MB = 8 * 1024 * 1024;
 
-    public static void main(String[] args) {
-        ArrayList<byte[]> list = new ArrayList<>();
-        list.add(new byte[_7MB]);
-        list.add(new byte[_512KB]);
-        list.add(new byte[_512KB]);
+    public static void main(String[] args) throws InterruptedException {
+//        ArrayList<byte[]> list = new ArrayList<>();
+//        list.add(new byte[_7MB]);
+//        list.add(new byte[_512KB]);
+//        list.add(new byte[_512KB]);
+        /**
+         * 一个8MB会直接放入老年堆
+         * 两个8MB会直接报错：OutOfMemoryError: Java heap space
+         */
+//        list.add(new byte[_8MB]);
+//        list.add(new byte[_8MB]);
+
+        new Thread(()->{
+            ArrayList<byte[]> list = new ArrayList<>();
+            list.add(new byte[_8MB]);
+            list.add(new byte[_8MB]);
+        }).start();
+
+        System.out.println("Sleep......");
+        Thread.sleep(100L);
     }
 }
